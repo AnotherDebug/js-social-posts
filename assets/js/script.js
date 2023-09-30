@@ -23,70 +23,81 @@ Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 1. Creo un array di oggetti con le caratteristiche suggerite, per poter essere stampate nelle relative card;
 2. Con un for Each ciclo gli oggetti; 
 3. Estrapolo i valori da stampare in pagina;
+4. Con una funzione inverto la data e la inserisco nel template;
+5. Creo una funzione che inserisce l'immagine se presente;
+6. Se l'immagine non è presente la sostituisco con le iniziali del suo nome e cognome;
+6. Creo una funzione che prende le sue iniziali e le stampa nel template;
+7. Con una istruzione decido se inserire l'immagine oppure le iniziali in base al risultato;
+
+
 */
 
 //1.
 const posts = [
-    {
-        "id": 1,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
-        "media": "https://unsplash.it/600/300?image=171",
-        "author": {
-            "name": "Phil Mangione",
-            "image": "https://unsplash.it/300/300?image=15"
-        },
-        "likes": 80,
-        "created": "2021-06-25"
+  {
+    id: 1,
+    content:
+      "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    media: "https://unsplash.it/600/300?image=171",
+    author: {
+      name: "Phil Mangione",
+      image: "https://unsplash.it/300/300?image=15",
     },
-    {
-        "id": 2,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
-        "media": "https://unsplash.it/600/400?image=112",
-        "author": {
-            "name": "Sofia Perlari",
-            "image": "https://unsplash.it/300/300?image=10"
-        },
-        "likes": 120,
-        "created": "2021-09-03"
+    likes: 80,
+    created: "2021-06-25",
+  },
+  {
+    id: 2,
+    content:
+      "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    media: "https://unsplash.it/600/400?image=112",
+    author: {
+      name: "Sofia Perlari",
+      image: "https://unsplash.it/300/300?image=10",
     },
-    {
-        "id": 3,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
-        "media": "https://unsplash.it/600/400?image=234",
-        "author": {
-            "name": "Chiara Passaro",
-            "image": "https://unsplash.it/300/300?image=20"
-        },
-        "likes": 78,
-        "created": "2021-05-15"
+    likes: 120,
+    created: "2021-09-03",
+  },
+  {
+    id: 3,
+    content:
+      "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    media: "https://unsplash.it/600/400?image=234",
+    author: {
+      name: "Chiara Passaro",
+      image: "https://unsplash.it/300/300?image=20",
     },
-    {
-        "id": 4,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
-        "media": "https://unsplash.it/600/400?image=24",
-        "author": {
-            "name": "Luca Formicola",
-            "image": null
-        },
-        "likes": 56,
-        "created": "2021-04-03"
+    likes: 78,
+    created: "2021-05-15",
+  },
+  {
+    id: 4,
+    content:
+      "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    media: "https://unsplash.it/600/400?image=24",
+    author: {
+      name: "Luca Formicola",
+      image: null,
     },
-    {
-        "id": 5,
-        "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
-        "media": "https://unsplash.it/600/400?image=534",
-        "author": {
-            "name": "Alessandro Sainato",
-            "image": "https://unsplash.it/300/300?image=29"
-        },
-        "likes": 95,
-        "created": "2021-03-05"
-    }
+    likes: 56,
+    created: "2021-04-03",
+  },
+  {
+    id: 5,
+    content:
+      "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    media: "https://unsplash.it/600/400?image=534",
+    author: {
+      name: "Alessandro Sainato",
+      image: "https://unsplash.it/300/300?image=29",
+    },
+    likes: 95,
+    created: "2021-03-05",
+  },
 ];
 
 //REFERENCES
 const postListRef = document.querySelector(".posts-list");
-
 
 //2.
 posts.forEach((post) => {
@@ -99,7 +110,7 @@ posts.forEach((post) => {
     <div class="post__header">
         <div class="post-meta">                    
             <div class="post-meta__icon">
-                <img class="profile-pic" src="${image}" alt="Phil Mangione">                    
+            ${author.image ? getImage(author) : firstLetters(author)}            
             </div>
             <div class="post-meta__data">
                 <div class="post-meta__author">${name}</div>
@@ -127,9 +138,20 @@ posts.forEach((post) => {
 </div>`;
 });
 
-
 function changeDate(date) {
-    return date.split('-').reverse().join('/')
-};
+  return date.split("-").reverse().join("/");
+}
 
+function getImage(author) {
+    return `<img class="profile-pic" src="${author.image}" alt="${author.name}"> `;
+}
 
+function firstLetters(author) {
+    const {name} = author;
+    const letters = name.split(' ').map(nameSplit => nameSplit.charAt(0));
+    const firstLetter = letters.join(' ');
+   
+    return `<div class="profile-pic-default">
+    <span>${firstLetter}</span>
+    </div>`;
+}
