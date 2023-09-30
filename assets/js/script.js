@@ -25,7 +25,6 @@ Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 3. Estrapolo i valori da stampare in pagina;
 */
 
-
 //1.
 const posts = [
     {
@@ -37,18 +36,18 @@ const posts = [
             "image": "https://unsplash.it/300/300?image=15"
         },
         "likes": 80,
-        "created": "06-25-2021"
+        "created": "2021-06-25"
     },
     {
         "id": 2,
         "content": "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
-        "media": null,
+        "media": "https://unsplash.it/600/400?image=112",
         "author": {
             "name": "Sofia Perlari",
             "image": "https://unsplash.it/300/300?image=10"
         },
         "likes": 120,
-        "created": "09-03-2021"
+        "created": "2021-09-03"
     },
     {
         "id": 3,
@@ -59,7 +58,7 @@ const posts = [
             "image": "https://unsplash.it/300/300?image=20"
         },
         "likes": 78,
-        "created": "05-15-2021"
+        "created": "2021-05-15"
     },
     {
         "id": 4,
@@ -67,10 +66,10 @@ const posts = [
         "media": "https://unsplash.it/600/400?image=24",
         "author": {
             "name": "Luca Formicola",
-            "image": "https://unsplash.it/300/300?image=25"
+            "image": null
         },
         "likes": 56,
-        "created": "04-03-2021"
+        "created": "2021-04-03"
     },
     {
         "id": 5,
@@ -81,21 +80,22 @@ const posts = [
             "image": "https://unsplash.it/300/300?image=29"
         },
         "likes": 95,
-        "created": "03-05-2021"
+        "created": "2021-03-05"
     }
 ];
 
 //REFERENCES
 const postListRef = document.querySelector(".posts-list");
-//2.
 
+
+//2.
 posts.forEach((post) => {
-    //3.
-    const {id, content, media, author, likes, created} = post;
-    const {name, image} = author;
-    console.log(id);
-    console.log(name);
-    postListRef.innerHTML += `<div class="post">
+  //3.
+  const { id, content, media, author, likes, created } = post;
+  const { name, image } = author;
+  console.log(id);
+  console.log(name);
+  postListRef.innerHTML += `<div class="post">
     <div class="post__header">
         <div class="post-meta">                    
             <div class="post-meta__icon">
@@ -103,7 +103,7 @@ posts.forEach((post) => {
             </div>
             <div class="post-meta__data">
                 <div class="post-meta__author">${name}</div>
-                <div class="post-meta__time">4 mesi fa</div>
+                <div class="post-meta__time">${changeDate(created)}</div>
             </div>                    
         </div>
     </div>
@@ -128,5 +128,8 @@ posts.forEach((post) => {
 });
 
 
+function changeDate(date) {
+    return date.split('-').reverse().join('/')
+};
 
 
