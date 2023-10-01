@@ -109,10 +109,10 @@ const postListRef = document.querySelector(".posts-list");
 
 //9.
 const jsLikeButtonRef = document.querySelectorAll(".js-like-button");
-const likesCounterRef = document.querySelectorAll(".likes__counter");
+const likesCounterRef = document.querySelectorAll(".js-likes-counter");
 
 //10.
-let clickedLikes = [1,4];
+let clickedLikes = [];
 
 //2.
 posts.forEach((post) => {
@@ -125,7 +125,7 @@ posts.forEach((post) => {
     <div class="post__header">
         <div class="post-meta">                    
             <div class="post-meta__icon">
-            ${author.image ? getImage(author) : firstLetters(author)}            
+            ${author.image ? getImage(author) : firstLetters(author)}
             </div>
             <div class="post-meta__data">
                 <div class="post-meta__author">${name}</div>
@@ -140,7 +140,7 @@ posts.forEach((post) => {
     <div class="post__footer">
         <div class="likes js-likes">
             <div class="likes__cta">
-                <a class="like-button  js-like-button ${isClickedLikes(id) ? "like-button--liked" : ""}" href="#" data-postid="${id}">
+                <a class="like-button  js-like-button ${isClickedLikes(id) ? "like-button--liked" : ""}" href="#">
                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                     <span class="like-button__label">Mi Piace</span>
                 </a>
@@ -156,7 +156,25 @@ posts.forEach((post) => {
 //13.
 jsLikeButtonRef.forEach((btn, index) => {
   btn._id = posts[index].id;
+  btn._index = index;
+  //14.
+  btn.addEventListener("click", handleLike);
 });
+
+//15.
+function handleLike(event) {
+  event.preventDefault();
+  this.classList().toggle("like-button--liked");
+  const selectedPost = posts.find(post => post.id === this._id);
+  if(clickedLikes.includes(this._id)) {
+    clickedLikes = clickedLikes.filter(idLike => idLike !== this._id);
+    selectedPost.likes--;
+  }else{
+    selectedPost.likes++;
+    clickedLikes.push(this._id);
+  };
+  likesCounterRef[this._index].innerText = selectedPost.likes;
+};
 
 //11.
 function isClickedLikes(id) {
