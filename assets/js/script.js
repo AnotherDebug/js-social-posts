@@ -26,8 +26,16 @@ Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
 4. Con una funzione inverto la data e la inserisco nel template;
 5. Creo una funzione che inserisce l'immagine se presente;
 6. Se l'immagine non è presente la sostituisco con le iniziali del suo nome e cognome;
-6. Creo una funzione che prende le sue iniziali e le stampa nel template;
-7. Con una istruzione decido se inserire l'immagine oppure le iniziali in base al risultato;
+7. Creo una funzione che prende le sue iniziali e le stampa nel template;
+8. Con una istruzione decido se inserire l'immagine oppure le iniziali in base al risultato;
+9. Prendo il riferimento del button like e del counter;
+10. Salvo in un secondo array i like cliccati.
+11. Con una funzione controllo se l'id è compreso nell'array;
+12. Se la condizione è vera gli metto la classe che cambia il colore;
+13. Ciclo i button e gli aggiungo l'id;
+14. Con un evento al click del button like, gli cambio il colore e incremento i like in pagina;
+15. Creo una funzione gestisco la classe per cambiare colore;
+
 
 
 */
@@ -99,6 +107,13 @@ const posts = [
 //REFERENCES
 const postListRef = document.querySelector(".posts-list");
 
+//9.
+const jsLikeButtonRef = document.querySelectorAll(".js-like-button");
+const likesCounterRef = document.querySelectorAll(".likes__counter");
+
+//10.
+let clickedLikes = [1,4];
+
 //2.
 posts.forEach((post) => {
   //3.
@@ -125,7 +140,7 @@ posts.forEach((post) => {
     <div class="post__footer">
         <div class="likes js-likes">
             <div class="likes__cta">
-                <a class="like-button  js-like-button" href="#" data-postid="${id}">
+                <a class="like-button  js-like-button ${isClickedLikes(id) ? "like-button--liked" : ""}" href="#" data-postid="${id}">
                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                     <span class="like-button__label">Mi Piace</span>
                 </a>
@@ -138,14 +153,27 @@ posts.forEach((post) => {
 </div>`;
 });
 
+//13.
+jsLikeButtonRef.forEach((btn, index) => {
+  btn._id = posts[index].id;
+});
+
+//11.
+function isClickedLikes(id) {
+  return clickedLikes.includes(id);
+};
+
+//4.
 function changeDate(date) {
   return date.split("-").reverse().join("/");
 }
 
+//5.
 function getImage(author) {
     return `<img class="profile-pic" src="${author.image}" alt="${author.name}"> `;
 }
 
+//7.
 function firstLetters(author) {
     const {name} = author;
     const letters = name.split(' ').map(nameSplit => nameSplit.charAt(0));
@@ -155,3 +183,5 @@ function firstLetters(author) {
     <span>${firstLetter}</span>
     </div>`;
 }
+
+
